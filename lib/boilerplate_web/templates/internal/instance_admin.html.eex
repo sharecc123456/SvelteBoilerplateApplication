@@ -1,0 +1,334 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="box">
+    <h2 class="subtitle">Add New Notification to ALL accounts</h2>
+    <%= form_for @conn,
+          "/internal/notification", [],
+          fn _f -> %>
+      <div class="field">
+        <label class="label">Title</label>
+        <div class="control">
+          <input class="input" type="text" name="title" placeholder="Title">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Message</label>
+        <div class="control">
+          <input class="input" type="text" name="message" placeholder="Message">
+        </div>
+      </div>
+
+      <button class="button is-primary" type="submit">Send to all customers</button>
+    <% end  %>
+  </div>
+  <div class="box">
+    <div class="has-text-centered">
+      <h1 class="title">Instance Administration</h1>
+    </div>
+    <div>
+      Coupons <a class="button is-primary modal-button" data-modal="bp-internal-modal" data-target="admin_invite">New</a>
+      <br />
+      Types: 0 = percentage discount, set value to percentage; 1 = override value, set value to the override; 2 = disable stripe, value can be whatever
+        <br />
+        Free 14 day trial with credit card: type=1 value=0;14 <br />
+        Free 14 day trial without credit card: type=2 value=0;14 <br />
+        14 day trial for $5: type=1 value=5;14 <br />
+        Unlimited free trial with 3 packages sent maximum with credit card: type=1 value=0;;3 <br />
+        Unlimited free trial with 3 packages sent maximum without credit card: type=2 value=0;;3 <br />
+        50% off with credit card, for 14 days: type=0 value=50;14 <br />
+      <table style="table-layout: fixed;" class="table is-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+            <th>Status</th>
+            <th>Flags</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% import Ecto.Query %>
+          <% alias  BoilerPlate.PaymentCoupon %>
+          <% alias  BoilerPlate.Repo  %>
+          <%= for pc <- Repo.all(from pc in PaymentCoupon, select: pc) do %>
+          <tr>
+            <td>
+              <%= pc.id %>
+            </td>
+            <td>
+              <a href="/pricing?promo_code=<%= pc.name %>">
+                <%= pc.name %>
+              </a>
+            </td>
+            <td>
+              <%= pc.type %>
+            </td>
+            <td>
+              <%= pc.value %>
+            </td>
+            <td>
+              <%= pc.status %>
+            </td>
+            <td>
+              <%= pc.flags %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      Companies<a class="button is-primary" href="/internal/newco">Make new trial company</a>
+      <div class="table-container">
+        <table class="table is-striped">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Admin Emails</th>
+              <th>Name</th>
+              <th>Stripe Customer id</th>
+              <th>plan</th>
+              <th>coupon id</th>
+              <th>trial end</th>
+              <th>trial max packages</th>
+              <th>next payment due</th>
+              <th>MFA mandated?</th>
+              <th>buttons</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% import Ecto.Query %>
+            <% alias  BoilerPlate.Company %>
+            <% alias  BoilerPlate.Repo  %>
+            <%= for c <- Repo.all(from c in Company, select: c, order_by: c.id) do %>
+            <tr>
+              <td>
+                <%= c.id %>
+              </td>
+              <td>
+                <%= get_admin_emails(c) %>
+              </td>
+              <td>
+                <%= c.name %>
+              </td>
+              <td>
+                <%= c.stripe_customer_id %>
+              </td>
+              <td>
+                <%= c.plan %>
+              </td>
+              <td>
+                <%= c.coupon %>
+              </td>
+              <td>
+                <%= c.trial_end  %>
+              </td>
+              <td>
+                <%= c.trial_max_packages %>
+              </td>
+              <td>
+                <%= c.next_payment_due %>
+              </td>
+              <td>
+                <%= c.mfa_mandate %>
+              </td>
+              <td>
+                <a href="/internal/company/<%= c.id %>/force_trial_expiration" class="button is-primary">
+                  Force Trial expiration
+                </a>
+              </td>
+              <td>
+                <a href="/internal/company/<%= c.id %>/mandate_mfa" class="button is-primary">
+                  Toggle MFA Mandate
+                </a>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div>
+      Payment plans<a class="button modal-button is-primary" data-modal="bp-internal-modal" data-target="admin_newpplan">Make new payment plan</a>
+      <table class="table is-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Base cost</th>
+            <th>Charge Frequency (days)</th>
+            <th>Seats</th>
+            <th>Flags</th>
+            <th>Status</th>
+            <th>Internal Name</th>
+            <th>Display Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% import Ecto.Query %>
+          <% alias  BoilerPlate.PaymentPlan%>
+          <% alias  BoilerPlate.Repo  %>
+          <%= for c <- Repo.all(from c in PaymentPlan, select: c, order_by: c.id) do %>
+          <tr>
+            <td>
+              <%= c.id %>
+            </td>
+            <td>
+              <%= c.base_cost %>
+            </td>
+            <td>
+              <%= c.charge_frequency %>
+            </td>
+            <td>
+              <%= c.seats %>
+            </td>
+            <td>
+              <%= c.flags %>
+            </td>
+            <td>
+              <%= c.status  %>
+            </td>
+            <td>
+              <%= c.name %>
+            </td>
+            <td>
+              <%= c.display_name %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- modals -->
+
+<div id="bp-internal-modal" class="modal">
+  <div class="modal-background"></div>
+
+  <div id="admin_invite" style="display: none;" class="modal-content modal-multi-content">
+    <div class="box">
+      <%= form_for @conn,
+            "/internal/new/coupon", [],
+            fn _f -> %>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="name" placeholder="Name (Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-address-card"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="type" placeholder="Type (Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="val" placeholder="Value (Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <center>
+        <button type="submit" class="button is-dark" id="admin_invite-save">
+          Add
+        </button>
+        <br />
+        <i style="font-size: 13px;">Types: 0 = percentage discount, set value to percentage; 1 = override value, set value to the override; 2 = disable stripe, value can be whatever</i>
+      </center>
+
+      <button type="button" class="modal-close is-large" aria-label="close"></button>
+    <% end %>
+    </div>
+  </div>
+
+  <div id="admin_newpplan" style="display: none;" class="modal-content modal-multi-content">
+    <div class="box">
+      <%= form_for @conn,
+            "/internal/new/paymentplan", [],
+            fn _f -> %>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="name" placeholder="Internal Name (must_be_unique_and_in_lower_and_snake_case)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-address-card"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="display_name" placeholder="Display Name (Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="cost" placeholder="Cost (in USD cents, Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="charge_frequency" placeholder="Charge Frequency (in days, Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" name="seats" placeholder="Maximum seats (zero for unlimited, Required)" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-at"></i>
+          </span>
+        </p>
+      </div>
+      <center>
+        <button type="submit" class="button is-dark" id="admin_newplan-save">
+          Add
+        </button>
+      </center>
+
+      <button type="button" class="modal-close is-large" aria-label="close"></button>
+    <% end %>
+    </div>
+  </div>
+
+</div>

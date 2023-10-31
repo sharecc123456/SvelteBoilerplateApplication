@@ -1,0 +1,36 @@
+FROM bitwalker/alpine-elixir-phoenix:1.12.2
+
+RUN apk add gnupg
+
+# Doppler
+RUN wget -q -t3 'https://packages.doppler.com/public/cli/rsa.8004D9FF50437357.key' -O /etc/apk/keys/cli@doppler-8004D9FF50437357.rsa.pub && \
+  echo 'https://packages.doppler.com/public/cli/alpine/any-version/main' | tee -a /etc/apk/repositories && \
+  apk add doppler 
+
+# core dependencies
+RUN apk add jpeg libjpeg jpeg-dev
+RUN apk add zlib zlib-dev
+RUN apk add py3-pip
+RUN apk add python3-dev
+RUN apk add redis
+RUN apk add inotify-tools
+RUN apk add openjdk8 wkhtmltopdf
+RUN apk add imagemagick
+RUN wget https://gitlab.com/pdftk-java/pdftk/-/jobs/924565145/artifacts/raw/build/libs/pdftk-all.jar
+RUN mv pdftk-all.jar pdftk.jar
+COPY ./pdftk .
+RUN chmod 775 pdftk*
+RUN mv pdftk* /usr/local/bin
+
+# IAC deps
+RUN pip3 install pyPDF2 pdfrw reportlab pillow
+
+# Cache elixir deps
+ADD mix.exs mix.lock ./
+RUN mix do deps.get, deps.compile
+
+# Same with npm deps
+ADD assets/package.json assets/
+RUN cd assets && npm install
+
+CMD ["/opt/app/docker_entrypoint_dev.sh"]

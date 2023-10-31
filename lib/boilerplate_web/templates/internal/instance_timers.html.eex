@@ -1,0 +1,42 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/n/requestor#internal">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+    <div class="box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Timer Name</th>
+                    <th>Timer Fires at</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= for timer <- @timers do %>
+                <tr>
+                    <td><%= timer.timer_name %></td>
+                    <td><%= timer.fire_time%></td>
+                </tr>
+                <% end  %>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,24 @@
+@startuml
+title Boilerplate: Storage Integrations Planning
+
+Admin -> Boilerplate : uploads PDF template
+Boilerplate -> Boilerplate : Check company's TSP
+Boilerplate -> "Temporary Storage Provider" : uploads the PDF
+Admin -> Recipient : sends checklist assignment
+Recipient -> Boilerplate : Fills out the document
+Admin -> Boilerplate : Approves the document
+Boilerplate -> Boilerplate : Check company's FSP
+Boilerplate -> "Final Storage Provider" : uploads the final PDF
+Boilerplate -> Boilerplate : removes all intermediaries from TSP
+
+@enduml
+
+
+
+
+Enum.empty?(enum)
+length(enum) == 0
+
+a -> b -> c -> d
+
+4  == 0

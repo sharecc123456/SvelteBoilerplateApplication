@@ -1,0 +1,121 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/n/requestor#internal">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+    <h1 class="title">Full Boilerplate Stats</h1>
+    <table class="table">
+      <% j = Enum.at(@billing_data, 0) %>
+      <thead>
+        <tr>
+          <th>
+          </th>
+          <% {_metric_denoter, metric_data} = Enum.at(j.metrics, 0) %>
+          <%= for {metric_type, _metric_value} <- metric_data do %>
+            <th>
+              <%= metric_type %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for {metric_denoter, metric_data} <- j.metrics do %>
+          <tr>
+            <td>
+              <%= metric_denoter %>
+            </td>
+            <%= for {metric_type, _metric_value} <- metric_data do %>
+              <td class="resolve-this metric_<%= metric_denoter %>_<%= metric_type %>">
+                metric_<%= metric_denoter %>_<%= metric_type %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+</section>
+<section class="section">
+    <%= for i <- @billing_data do %>
+        <h2 class="subtitle"><%= i.company.name %> (id: <%= i.company.id %>)</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+              </th>
+              <% {_metric_denoter, metric_data} = Enum.at(i.metrics, 0) %>
+              <%= for {metric_type, _metric_value} <- metric_data do %>
+                <th>
+                  <%= metric_type %>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for {metric_denoter, metric_data} <- i.metrics do %>
+              <tr>
+                <td>
+                  <%= metric_denoter %>
+                </td>
+                <%= for {metric_type, metric_value} <- metric_data do %>
+                  <td class="from-this company-<%= i.company.id %> metric_<%= metric_denoter %>_<%= metric_type %>">
+                    <%= metric_value %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+    <% end %>
+</section>
+
+<script type="text/javascript">
+  // the idea is to collect all unique classes first
+  // then use them to query the document for "from-this"
+  // sum them up and put them into "resolve-this"
+  let allResolve = document.querySelectorAll(".resolve-this");
+  let unique_classes = [];
+  for (let i = 0; i < allResolve.length; i++) {
+    let item = allResolve[i];
+    for (let j = 0; j < item.classList.length; j ++) {
+      let _class = item.classList[j].toString();
+      if (_class != "resolve-this" && unique_classes.find((x) => x == _class) == undefined) {
+        unique_classes.push(_class);
+      }
+    }
+  }
+ console.log(unique_classes);
+ for (let i = 0; i < unique_classes.length; i ++) {
+   let class_to_look_for = unique_classes[i];
+   let targets = document.querySelectorAll(`.from-this.${class_to_look_for}`);
+   let sum = 0;
+   for (let j = 0; j < targets.length; j ++) {
+     let target = targets[j];
+     sum += parseInt(target.innerHTML);
+   }
+   let fill_target  = document.querySelector(`.resolve-this.${class_to_look_for}`);
+   fill_target.innerHTML = sum;
+ }
+
+ var company_ids = [<%= @billing_data |> Enum.map(&(&1.company.id)) |> Enum.join(",") %>];
+ // todo make these auto generated
+
+
+</script>

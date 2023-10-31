@@ -1,0 +1,45 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <span class="navbar-item">
+      <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+    </span>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" id="bp-navbar">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container has-text-centered">
+    <div class="box">
+      <h1 class="title has-text-centered">Boilerplate Signature Verification</h1>
+      <h2 class="subtitle has-text-centered">If you have a signature verification code from a document signed via Boilerplate, you can enter the verification code into the field below to verify the signature's authenticity. You'll also receive information about the signature.</h2>
+
+      <div>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Signature Verification Code</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+              <input class="input" type="input" id="iac-vsig-txt" placeholder="In the form of <%= Application.get_env(:boilerplate, :iac_profile) %>-abcdef123456" />
+              </p>
+            </div>
+          </div>
+        </div>
+        <a class="button is-primary" type="button" data-action="iac-submit-for-verification">
+          Verify
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

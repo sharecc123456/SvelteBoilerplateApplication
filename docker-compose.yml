@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  web:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.dev
+    ports:
+      - "54000:4000"
+      - "55000:5000"
+    volumes:
+      - /opt/app/assets/node_modules
+      - /opt/app/deps
+      - type: bind
+        source: .
+        target: /opt/app/
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DOPPLER_TOKEN
+      - BOILERPLATE_COMMAND=migrate
+  redis:
+    image: docker.io/library/redis
+    command: redis-server --appendonly yes
+    ports:
+      - "56379:6379"
+    volumes:
+      - ./.redis-volume:/data
+  db:
+    image: docker.io/library/postgres:13.5
+    ports:
+      - "55432:5432"
+    volumes:
+      - ./.postgres-data:/var/lib/postgresql/data/pgdata
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust

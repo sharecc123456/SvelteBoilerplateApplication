@@ -1,0 +1,35 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container" style="width: 70%">
+    <div class="box">
+      <h1 class="title has-text-centered">Check Your Inbox</h1>
+      <p class="has-text-centered has-text-italic">
+      For your security, we need you to verify your email address. Please check your email account and click the link in the link we've sent you, it will also log you in. If you can't find the email, press the Resend button to have it sent to you again. Otherwise, please reach out to support via Intercom on the bottom-right corner. Thank your for your understanding.
+      </p>
+
+      <p class="has-text-centered" style="padding-top: 3em;">
+        <a href="/email/verification/<%= BoilerPlate.Guardian.Plug.current_resource(@conn).id %>/resend" class="button is-primary">
+          Resend email
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

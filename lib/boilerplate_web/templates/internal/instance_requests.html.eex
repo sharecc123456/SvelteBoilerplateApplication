@@ -1,0 +1,58 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="box">
+    <div class="has-text-centered">
+      <h1 class="title">Requestors</h1>
+    </div>
+
+    <table class="table">
+      <tr>
+        <td>Email</td>
+        <td>Name</td>
+        <td>Company</td>
+        <td>Created At</td>
+        <td></td>
+      </tr>
+    <%= for u <- @requestors do %>
+        <tr>
+        <td style="max-width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= u.email %></td>
+        <td><%= u.name %></td>
+        <td><%= u.company_name %></td>
+        <td><%= u.inserted_at  %></td>
+        <td>
+          <%= if u.revoked do %>
+            <a class="button is-secondary" href="/internal/askreinstate/<%= u.requestor_id %>">
+                Reinstate Access
+            </a>
+          <% else %>
+            <a class="button is-primary" href="/internal/askrevoke/<%= u.requestor_id %>">
+                Revoke Access
+            </a>
+          <% end  %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</section>

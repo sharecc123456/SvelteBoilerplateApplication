@@ -1,0 +1,13 @@
+diff --git a/node_modules/print-js/dist/print.js b/node_modules/print-js/dist/print.js
+index 2d54952..ba3bb5e 100644
+--- a/node_modules/print-js/dist/print.js
++++ b/node_modules/print-js/dist/print.js
+@@ -849,7 +849,7 @@ var Print = {
+     iframeElement.onload = function () {
+       if (params.type === 'pdf') {
+         // Add a delay for Firefox. In my tests, 1000ms was sufficient but 100ms was not
+-        if (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].isFirefox()) {
++        if (_browser__WEBPACK_IMPORTED_MODULE_0__["default"].isFirefox() || _browser__WEBPACK_IMPORTED_MODULE_0__["default"].isSafari()) {
+           setTimeout(function () {
+             return performPrint(iframeElement, params);
+           }, 1000);

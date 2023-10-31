@@ -1,0 +1,307 @@
+@charset "utf-8";
+
+// Import a Google Font
+// @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+// Set your brand colors
+$purple: #8A4D76;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+// $family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $purple;
+$link: $pink;
+$widescreen-enabled: true;
+$fullhd-enabled: true;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$tabs-toggle-link-active-background-color: $primary;
+$tabs-toggle-link-active-border-color: $primary;
+// $control-border-width: 2px;
+// $input-border-color: transparent;
+// $input-shadow: none;
+
+// Import Bulma
+@import 'bulma';
+@import '../node_modules/bulma-extensions/bulma-pricingtable/dist/css/bulma-pricingtable.sass';
+@import '../node_modules/bulma-extensions/bulma-tooltip/dist/css/bulma-tooltip.sass';
+
+.bp-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bp-shrink {
+  white-space: nowrap;
+  width: 1px;
+}
+
+.bp-workflow-img {
+  //transition: transform 0.25s ease;
+}
+
+.bp-workflow-img:hover {
+  //-webkit-transform: translate3d(0, 0, 999px) scale(2.0);
+  //transform: scale(2.0);
+  //z-index: 999;
+  //border: 5px solid black;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin: 0 0 100px;
+    /* bottom = footer height */
+    padding-bottom: 25px;
+}
+
+footer {
+    // background-color: orange;
+    text-align: center;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.bp-dropdown {
+  overflow-y: visible;
+  overflow-x: visible;
+}
+
+.bp-disabled-link {
+  color: currentColor;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.bp-stripe-number {
+  margin-top: 0.5em;
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 7px;
+  box-shadow: inset 1px 1px 1px 1px #ccc;
+}
+
+.bp-stripe-expiry {
+  margin-top: 0.5em;
+  padding: 10px;
+  border: 2px solid grey;
+  border-radius: 7px;
+  box-shadow: inset 1px 1px 1px 1px #ccc;
+}
+
+.bp-stripe {
+  background-color: #f6f9fc;
+  box-shadow: inset 1px 1px 1px 1px #ccc;
+  border: 1px solid $brown;
+  border-radius: 7px;
+}
+
+.bp-stripe * {
+  font-family: Inter UI, Open Sans, Segoe UI, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.bp-stripe form {
+  max-width: 496px !important;
+  padding: 0 15px;
+}
+
+.bp-stripe form > * + * {
+  margin-top: 20px;
+}
+
+.bp-stripe .container {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 3px;
+}
+
+.bp-stripe fieldset {
+  border-style: none;
+  padding: 5px;
+  margin-left: -5px;
+  margin-right: -5px;
+  background: rgba(18, 91, 152, 0.05);
+  border-radius: 8px;
+}
+
+.bp-stripe fieldset legend {
+  float: left;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: #8898aa;
+  padding: 3px 10px 7px;
+}
+
+.bp-stripe .card-only {
+  display: block;
+}
+.bp-stripe .payment-request-available {
+  display: none;
+}
+
+.bp-stripe fieldset legend + * {
+  clear: both;
+}
+
+.bp-stripe input, .bp-stripe button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+  color: #fff;
+}
+
+.bp-stripe input:-webkit-autofill {
+  transition: background-color 100000000s;
+  -webkit-animation: 1ms void-animation-out;
+}
+
+.bp-stripe #card-element {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.bp-stripe input {
+  -webkit-animation: 1ms void-animation-out;
+}
+
+.bp-stripe input::-webkit-input-placeholder {
+  color: #9bacc8;
+}
+
+.bp-stripe input::-moz-placeholder {
+  color: #9bacc8;
+}
+
+.bp-stripe input:-ms-input-placeholder {
+  color: #9bacc8;
+}
+
+.bp-stripe button {
+  display: block;
+  width: 100%;
+  height: 37px;
+  background-color: #d782d9;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.bp-stripe button:active {
+  background-color: #b76ac4;
+}
+
+.bp-stripe .error svg .base {
+  fill: #e25950;
+}
+
+.bp-stripe .error svg .glyph {
+  fill: #f6f9fc;
+}
+
+.bp-stripe .error .message {
+  color: #e25950;
+}
+
+.bp-stripe .success .icon .border {
+  stroke: #ffc7ee;
+}
+
+.bp-stripe .success .icon .checkmark {
+  stroke: #d782d9;
+}
+
+.bp-stripe .success .title {
+  color: #32325d;
+}
+
+.bp-stripe .success .message {
+  color: #8898aa;
+}
+
+.bp-stripe .success .reset path {
+  fill: #d782d9;
+}
+
+.bp-feature-unavailable::before {
+  content: "Note: ";
+  font-style: normal;
+}
+
+.bp-feature-unavailable {
+  font-weight: bold;
+  font-style: italic;
+  align: center;
+  background-color: lightgrey;
+}
+
+@media only screen and (max-width: 767px) {
+  .bp-login-container, .bp-midlogin-container {
+    width: 90%;
+  }
+  .bp-notification {
+    margin-top: 3em;
+    width: 90%;
+  }
+  .bp-plzsign-status {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .bp-login-container, .bp-midlogin-container {
+    width: 90%;
+  }
+  .bp-notification {
+    margin-top: 3em;
+    width: 50%;
+  }
+  .bp-plzsign-status {
+    margin: auto;
+    width: 1%;
+    vertical-align: middle;
+  }
+}
+
+table.bp-is-borderless td,
+ table.bp-is-borderless th,
+ table.bp-is-borderless tr {
+   border: 0 !important;
+ }
+
+canvas.bp-signature-pad {
+  border: thick double #32a1ce;
+}
+
+.bp-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5em;
+}
+
+.bp-iac-flexbox {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}

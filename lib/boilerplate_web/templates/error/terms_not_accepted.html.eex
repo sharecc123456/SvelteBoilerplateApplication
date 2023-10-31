@@ -1,0 +1,35 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container" style="width: 70%">
+    <div class="box">
+      <h1 class="title has-text-centered">Terms of Service</h1>
+      <p class="has-text-centered has-text-italic">
+      In order to use Boilerplate, we need your acceptance of our <a class="has-text-info" href="/terms" target="_blank">Terms of Service</a> and our <a class="has-text-info" href="https://boilerplate.co/privacy-policy" target="_blank">Privacy Policy</a>.
+      </p>
+
+      <p class="has-text-centered" style="padding-top: 3em;">
+        <a href="/terms/accept" class="button is-primary">
+          Accept & Continue
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

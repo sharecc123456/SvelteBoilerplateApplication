@@ -1,0 +1,116 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="box">
+    <div class="has-text-centered">
+      <h1 class="title">User Impersonation</h1>
+    </div>
+
+    <input type="checkbox" onclick="toggleImpersonateOnly(this);" id="impersonate-only" /><span> </span>Show only impersonate eligible users
+
+    <table class="table">
+      <tr>
+        <td>Name</td>
+        <td>Email</td>
+        <td>2FA?</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <%= for u <- @users do %>
+      <tr data-userid="<%= u.id %>"
+          <%= if not BoilerPlate.Company.impersonate_ok?(BoilerPlate.Repo.get(BoilerPlate.Company, u.company_id)) do %>
+          class="impersonate-no"
+          <% end %>
+      >
+        <td style="max-width: 20%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%= u.name %></td>
+        <td><%= u.email %><br />(<%= u.organization %>)</td>
+        <td><%= if BoilerPlate.User.two_factor_state?(u) == :setup do "Yes" else "No" end %></td>
+        <%= if BoilerPlate.Company.impersonate_ok?(BoilerPlate.Repo.get(BoilerPlate.Company, u.company_id)) do %>
+            <td>
+              <button type="button" class="button is-primary impersonate-button" data-uid="<%=  u.id  %>" data-uname="<%=  u.name %>">
+                Impersonate
+              </button>
+            </td>
+        <% else %>
+          <td><a class="button is-primary" disabled>Impersonate</a></td>
+        <% end %>
+        <td><a class="button is-primary" href="/internal/force_disable_2fa/<%= u.id %>">Force Disable 2FA</a></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</section>
+
+<div id="impersonate-modal" class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+      <%= form_for @conn, "/internal/impersonate", fn _f -> %>
+        <input type="hidden" name="iid" id="impersonate-id" value="" />
+        <div class="field">
+          <p class="has-text-weight-bold">Verify to impersonate "<span id="impersonate-name"></span>"</p>
+        </div>
+        <div class="field">
+          <p>Impersonating a user should only be used when necessary for account
+          maintenance and support. The impersonating party recognizes that these
+          accounts may contain sensitive data and should not view or access any
+          data or information that is not required for maintenance and support.
+          For added security, please use the secure code from your third party
+          authenticator app to access impersonate of this account. Enter code below:</p>
+        </div>
+        <div class="field">
+          <input type="text" name="vcode" class="input" autocomplete="one-time-code" placeholder="000000" value=""/>
+        </div>
+        <div class="field has-text-centered">
+          <button class="button is-dark">Submit</button>
+        </div>
+      <% end  %>
+    </div>
+  </div>
+  <button id="impersonate-close" class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<script type="text/javascript">
+ function toggleImpersonateOnly(e) {
+   let checked = e.checked;
+     let impBad = document.querySelectorAll('.impersonate-no');
+     for (const node of impBad) {
+      if (checked) {
+        node.classList.add('is-hidden');
+      } else {
+        node.classList.remove('is-hidden');
+      }
+    }
+ }
+
+ document.querySelectorAll('.impersonate-button').forEach(($el) => {
+   let uid = $el.dataset.uid;
+   let uname = $el.dataset.uname;
+   $el.addEventListener('click', (e) => {
+     document.getElementById('impersonate-id').value = uid;
+     document.getElementById('impersonate-name').innerHTML = uname;
+     document.getElementById('impersonate-modal').classList.add('is-active');
+   });
+ });
+
+</script>

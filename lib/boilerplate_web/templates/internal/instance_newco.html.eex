@@ -1,0 +1,88 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="box">
+      <div class="has-text-centered">
+        <h1 class="title">Internal: New Trial Company</h1>
+        <%= form_for @conn, "/internal/newco", fn _f -> %>
+          <div class="field">
+          <p class="control has-icons-left">
+          <input type="text" class="input" placeholder="Requestor Name" name="fn" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+          </p>
+          </div>
+
+          <div class="field">
+          <p class="control has-icons-left">
+          <input type="text" class="input" placeholder="Company Name" name="company_name" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-building"></i>
+          </span>
+          </p>
+          </div>
+
+          <div class="field">
+          <p class="control has-icons-left">
+          <input type="email" class="input" placeholder="Email" name="email" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          </p>
+          </div>
+
+          <div class="field">
+            <label class="label">
+              <input class="input" type="input" name="move_account" placeholder="type YES if you want to move this email to a NEW COMPANY THAT YOU ARE CREATING" />
+              Typing YES in the above field is potentially destructive if used improperly and the damage may not be reversable!
+            </label>
+          </div>
+
+          <div class="field">
+          <p class="control has-icons-left">
+          <div class="select">
+            <select name="payment_plan">
+              <% import Ecto.Query %>
+              <% alias BoilerPlate.PaymentPlan%>
+              <% alias BoilerPlate.Repo  %>
+              <option>free_trial</option>
+              <%= for c <- Repo.all(from c in PaymentPlan, select: c, order_by: c.id) do %>
+                <option><%= c.name %> (<%= c.base_cost %> $U.S. cents / <%= c.charge_frequency %> days)</option>
+              <% end %>
+            </select>
+          </div>
+          </p>
+          </div>
+
+          <button class="button is-primary" type="submit">
+            Create
+          </button>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

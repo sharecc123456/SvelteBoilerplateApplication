@@ -1,0 +1,61 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation"
+aria-label="main navigation">
+    <div class="navbar-brand">
+        <span class="navbar-item"><i class=
+        "fas fa-check-circle"></i><span style=
+        "padding-left: 0.5em;">Boilerplate</span></span> <a role=
+        "button" class="navbar-burger" aria-label="menu"
+        aria-expanded="false" data-target=
+        "bp-navbar"><span aria-hidden="true"></span>
+        <span aria-hidden="true"></span> <span aria-hidden=
+        "true"></span></a>
+    </div>
+    <div class="navbar-menu" id="bp-navbar">
+        <div class="navbar-start"></div>
+        <div class="navbar-end">
+            <a class="navbar-item" href="/">Cancel</a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="box">
+        <div class="has-text-centered">
+            <h1 class="title">Template Mover</h1>
+            <h2 class="subtitle">This tool is destructive! Stuff will break in the source company!</h2>
+            <%= form_for @conn,
+                    "/internal/tmplmover", [],
+            fn _f -> %>
+            Move/Copy this:
+            <div class="field">
+                <p class="control has-text-centered">
+                    <select class="select" name="template">
+                        <%= for tmpl <- @all_abby_templates do %>
+                            <option value="<%= tmpl.id %>"><%= tmpl.name %> (<%=  tmpl.description %>)</option>
+                        <% end %>
+                    </select>
+                </p>
+            </div>
+            To this company:
+            <div class="field">
+                <p class="control has-text-centered">
+                    <select class="select" name="company">
+                        <%= for tmpl <- @all_impersonate_companies do %>
+                            <option value="<%= tmpl.id %>"><%= tmpl.name %> (<%= get_admin_emails(tmpl)  %>)</option>
+                        <% end %>
+                    </select>
+                </p>
+                </div>
+                <div style="justify-content: center; width: 100%; margin: auto; display: flex; flex-flow: row nowrap; text-align: center;">
+                    <button type="submit" name="action" value="move" class="button is-dark" id="admin_invite-save">
+                    Move
+                    </button>
+                    <button type="submit" name="action" value="copy" style="margin-left: 1rem;" class="button is-primary" id="admin_invite-save">
+                    Copy
+                    </button>
+                </div>
+
+                <button type="button" class="modal-close is-large" aria-label="close"></button>
+                <% end %>
+        </div>
+    </div>
+</section>

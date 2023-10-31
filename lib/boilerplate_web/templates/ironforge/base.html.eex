@@ -1,0 +1,2 @@
+<input type="hidden" id="ironforge-page-role" data-role="<%= @ironforge_role %>" />
+<input type="hidden" id="ironforge-page-params" data-params="<%= Jason.encode!(@params) %>">

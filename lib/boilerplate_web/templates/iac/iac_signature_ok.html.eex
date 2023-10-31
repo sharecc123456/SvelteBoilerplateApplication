@@ -1,0 +1,48 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <span class="navbar-item">
+      <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+    </span>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" id="bp-navbar">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="box">
+      <h1 class="title has-text-centered">Boilerplate Signature Verification</h1>
+      <h2 class="subtitle has-text-centered">The signature hash you provided was verified. See below for details.</h2>
+
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Signer</td>
+            <td><%= BoilerPlate.Repo.get(BoilerPlate.User, @iacsighash.audit_user).name %></td>
+          </tr>
+          <tr>
+            <td>Signing IP Address</td>
+            <td><%= @iacsighash.audit_ip %></td>
+          </tr>
+          <tr>
+            <td>Signature Timestamp</td>
+            <td><%= @iacsighash.inserted_at %></td>
+          </tr>
+          <tr>
+            <td>Document Title</td>
+            <td><%= sighash_to_document(@iacsighash).name %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

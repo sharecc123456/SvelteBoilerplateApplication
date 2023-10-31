@@ -1,0 +1,28 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <span class="navbar-item">
+      <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+    </span>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" id="bp-navbar">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div style="width: 60%" class="container">
+    <div class="notification has-text-centered is-danger">
+      <h1 class="title has-text-centered">Invalid Signature!</h1><br/>
+      The signature hash you provided was not found in Boilerplate. This means that the document was not actually signed or it was tampered with.<br />
+           <center><strong>You should not trust the document!</strong></center>
+    </div>
+  </div>
+</section>

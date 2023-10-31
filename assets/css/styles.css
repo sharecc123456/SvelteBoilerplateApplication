@@ -1,0 +1,186 @@
+/* Variables */
+
+/* --primary
+--primary-variant
+--secondary
+--secondary-variant
+--background
+--surface
+--error
+--on-primary
+--on-secondary
+--on-background
+--on-surface
+--on-error */
+
+/* Displays */
+:root {
+  --text-dark: #2a2f34;
+  --text-primary: #4a5158;
+  --text-secondary: #606972;
+  --secondary: #d8dbdf;
+}
+
+/* Flexbox & Grid */
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+
+.gap-x-3 {
+  column-gap: 0.75rem;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+/* Justify */
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+/* Paddings and margins */
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Texts */
+
+/* Fonts */
+.font-bold {
+  font-weight: 700;
+}
+
+/* Borders */
+.border {
+  border-width: 1px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-secondary {
+  border-color: var(--secondary);
+}
+
+/* Spacing */
+.m-0 {
+  margin: 0;
+}
+.mb-2 {
+  margin-bottom: 8px;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.p-0 {
+  padding: 0;
+}
+.p-2 {
+  padding: 8px;
+}
+.pb-4 {
+  padding-bottom: 16px;
+}
+.pl-1 {
+  padding-left: 4px;
+}
+.pl-2 {
+  padding-left: 8px;
+}
+/* Sizing */
+.max-w-4xl {
+  max-width: 56rem; /* 896px */
+}
+.w-min {
+  width: min-content !important;
+}
+.w-8 {
+  width: 32px;
+}
+.w-9\/12 {
+  width: 75%;
+}
+.w-80 {
+  width: 20rem; /* 320px */
+}
+.w-full {
+  width: 100%;
+}
+/* Typography */
+.text-base {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem; /* 24px */
+}
+.text-lg {
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+.text-xl {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem; /* 28px */
+}
+.text-3xl {
+  font-size: 1.875rem; /* 30px */
+  line-height: 2.25rem; /* 36px */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+/* interactivity */
+.cursor-move {
+  cursor: move;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+  body {
+    margin: 0;
+  }
+  .sm-hide {
+    display: none;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .md\:gap-2 {
+    gap: 8px;
+  }
+}

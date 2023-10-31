@@ -1,0 +1,72 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+    <a class="navbar-item" href="/">
+      Cancel
+    </a>
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container">
+    <div class="box">
+      <div class="has-text-centered">
+        <h1 class="title">Internal: Add a user to existing company</h1>
+        <%= form_for @conn, "/internal/modco", fn _f -> %>
+          <div class="field">
+          <p class="control has-icons-left">
+          <input type="text" class="input" placeholder="Requestor Name" name="fn" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+          </p>
+          </div>
+
+          <div class="field">
+          <p class="control has-icons-left">
+          <input type="email" class="input" placeholder="Email" name="email" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          </p>
+          </div>
+
+          <div class="field">
+          <p class="control has-icons-left">
+          <div class="select">
+            <select name="company">
+              <% import Ecto.Query %>
+              <% alias BoilerPlate.Company %>
+              <% alias BoilerPlate.Repo  %>
+              <option>PLEASE CHOOSE</option>
+              <%= for c <- Repo.all(from c in Company, where: c.flags == 4, select: c, order_by: c.id) do %>
+                <option value="<%= c.id %>"><%= c.name %></option>
+              <% end %>
+            </select>
+          </div>
+          </p>
+          </div>
+
+          <button class="button is-primary" type="submit">
+            Create & Send Welcome Email
+          </button>
+
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

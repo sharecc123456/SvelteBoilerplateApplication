@@ -1,0 +1,35 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container" style="width: 70%">
+    <div class="box">
+      <h1 class="title has-text-centered">Form Expired</h1>
+      <p class="has-text-centered has-text-italic">
+      For your security, the form you just submitted has expired. Please click the below button to go back to where you were and get a new form. You can then repeat the previous action without an error.
+      </p>
+
+      <p class="has-text-centered" style="padding-top: 3em;">
+        <a href="javascript:window.history.go(-1);" class="button is-primary">
+          Try Again
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

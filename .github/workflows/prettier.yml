@@ -1,0 +1,24 @@
+name: Prettier Check
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Prettify code
+        uses: levex/prettier_action@master
+        with:
+          prettier_plugins: prettier-plugin-svelte
+          github_token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}

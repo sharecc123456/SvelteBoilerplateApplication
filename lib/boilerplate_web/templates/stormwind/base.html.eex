@@ -1,0 +1,3 @@
+<input type="hidden" id="stormwind-page-role" data-role="<%= @stormwind_role %>" />
+<input type="hidden" id="stormwind-page-params" data-params="<%= Jason.encode!(@params) %>">
+<input type="hidden" id="stormwind-page-roleimp" data-params="<%= @stormwind_roleimp %>">

@@ -1,0 +1,35 @@
+<nav class="navbar is-fixed-top is-dark" role="navigation" aria-label="main navigation">
+<div class="navbar-brand">
+  <span class="navbar-item">
+    <i class="fas fa-check-circle"></i><span style="padding-left: 0.5em;">Boilerplate</span>
+  </span>
+  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="bp-navbar">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </a>
+</div>
+<div class="navbar-menu" id="bp-navbar">
+  <div class="navbar-start">
+  </div>
+  <div class="navbar-end">
+  </div>
+</div>
+</nav>
+
+<section class="section">
+  <div class="container" style="width: 70%">
+    <div class="box">
+      <h1 class="title has-text-centered">Unauthenticated</h1>
+      <p class="has-text-centered has-text-italic">
+      For your security, you have been logged out due to inactivity or your session has expired. Please follow the button below to login again and continue using Boilerplate.
+      </p>
+
+      <p class="has-text-centered" style="padding-top: 3em;">
+        <a href="/" class="button is-primary">
+          OK
+        </a>
+      </p>
+    </div>
+  </div>
+</section>

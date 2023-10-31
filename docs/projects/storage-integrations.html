@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>storage-integrations.html</title>
+	<meta http-equiv="Content-Type" content=
+	"text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" media="all" href=
+	"https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css" />
+	<link rel="stylesheet" type="text/css" media="all" href=
+	"https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css" />
+	<meta name='viewport' content=
+	'width=device-width, initial-scale=1, shrink-to-fit=no' />
+	<style>
+	<![CDATA[
+	body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } 
+	]]>
+	</style>
+	<script id='MathJax-script' async="async" src=
+	'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script>
+	<script src=
+	'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script>
+	<script>
+	<![CDATA[
+	document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });
+	]]>
+	</script>
+</head>
+<body>
+	<h1 id="project-storage-integrations">Project: Storage
+	Integrations</h1>
+	<p><strong>Core Goal</strong>: Ability for Boilerplate to
+	integrate with various storage providers to hand-off files when
+	they are deemed “completed”. This, in turn, reduces our risk
+	liability by simply not having the files on our systems.</p>
+	<p><strong>Last Changed</strong>: 01/31/2023 by <span class=
+	"citation" data-cites="lev">@lev</span>.</p>
+	<h2 id="overview-user-stories">Overview / User Stories</h2>
+	<ul>
+	<li>Allow the user to add integrations -&gt; for now, let’s ask
+	them to email us.</li>
+	<li>Files should be uploaded to their storage provider once a
+	document is complete.</li>
+	</ul>
+	<h2 id="new-or-changed-models">New (or changed) Models</h2>
+	<div class="sourceCode" id="cb1">
+	<pre class="sourceCode elixir"><code class=
+	"sourceCode elixir"><span id="cb1-1"><a href="#cb1-1" aria-hidden=
+	"true" tabindex="-1"></a>schema <span class=
+	"st">"storage_provider"</span> <span class="kw">do</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex=
+"-1"></a>    field <span class="va">:backend</span>, <span class=
+"va">:string</span>, <span class="va">default:</span> <span class=
+"st">"s3"</span> <span class=
+"co"># One of "egnyte", "googledrive", "s3".</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex=
+"-1"></a>    field <span class="va">:meta_data</span>, <span class=
+"va">:map</span>, <span class="va">default:</span> %<span class=
+"fu">{}</span> <span class=
+"co"># Metadata for the integration, API keys, locations, etc.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex=
+"-1"></a>    field <span class="va">:status</span>, <span class=
+"va">:integer</span>, <span class="va">default:</span> <span class=
+"dv">0</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex=
+"-1"></a>    field <span class="va">:flags</span>, <span class=
+"va">:integer</span>, <span class="va">default:</span> <span class=
+"dv">0</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex=
+"-1"></a><span class="kw">end</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex=
+"-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex=
+"-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex=
+"-1"></a>schema <span class="st">"companies"</span> <span class=
+"kw">do</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex=
+"-1"></a>  <span class="co"># ...</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex=
+"-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex=
+"-1"></a>  <span class=
+"co"># Temporary Storage Provider (TSP): A storage provider for temporary storage of data</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex=
+"-1"></a>  field <span class=
+"va">:temporary_storage_provider</span>, references<span class=
+"fu">(</span><span class=
+"va">:storage_provider</span>, <span class="va">on_delete:</span> <span class="va">:nothing</span><span class="fu">)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex=
+"-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex=
+"-1"></a>  <span class=
+"co"># Final Storage Provider (FSP): The final destionation for all documents</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex=
+"-1"></a>  field <span class=
+"va">:final_storage_provider</span>, references<span class=
+"fu">(</span><span class=
+"va">:storage_provider</span>, <span class="va">on_delete:</span> <span class="va">:nothing</span><span class="fu">)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex=
+"-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex=
+"-1"></a>  <span class="co"># ...</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex=
+"-1"></a><span class="kw">end</span></span></code></pre>
+	</div>
+	<h2 id="backend-work-description">Backend Work Description</h2>
+	<ul>
+	<li>Add the <code>BoilerPlate.StorageProvider</code> model.</li>
+	<li>Modify the <code>BoilerPlate.Company</code> model.</li>
+	<li>Go through all <code>Arc.store/3</code> callsites and move
+	them to use <code>StorageBehaviour.put_file/2</code>.`
+	<ul>
+	<li>This is new function, it should store the file according to
+	the Behaviour’s intent.</li>
+	</ul>
+	</li>
+	<li>Remove our dependency on <code>arc</code>.</li>
+	<li>Instead of <code>Application.compile_env/2</code> to get the
+	<code>@storage_mod</code>, write a helper function in
+	<code>lib/boilerplate_web.ex</code> that can figure out the
+	correct <code>StorageBehaviour</code> based on the DB.
+	<ul>
+	<li>Better would be to write this function in a “helper” module
+	and import it in the <code>:controller</code> section of the
+	<code>boilerplate_web.ex</code> file. This way, all controllers
+	will inherit this function automatically.</li>
+	<li>The function should default to
+	<code>StorageAwsImpl</code>.</li>
+	<li>The final storage providers can be cached into ETS for
+	minimal performance loss.</li>
+	</ul>
+	</li>
+	<li>When a document/request/etc is approved - the final copy
+	should be uploaded to FSP and all intermediaries removed from the
+	TSP.</li>
+	</ul>
+	<p><strong>At this point, the software should be working
+	fine.</strong></p>
+	<ul>
+	<li>Write tests where a provider uses
+	<code>StorageLocalImpl</code>, add <code>meta_data</code> such
+	that it will write files to a folder that’s different from
+	<code>uploads</code> (the default).</li>
+	<li>Write the Egnyte integration. :-)</li>
+	</ul>
+	<h2 id="proposed-flow">Proposed Flow</h2>
+	<pre class="plantuml"><code>@startuml
+title Boilerplate: Storage Integrations Planning
+
+Admin -&gt; Boilerplate : uploads PDF template
+Boilerplate -&gt; Boilerplate : Check company's TSP
+Boilerplate -&gt; "Temporary Storage Provider" : uploads the PDF
+Admin -&gt; Recipient : sends checklist assignment
+Recipient -&gt; Boilerplate : Fills out the document
+Admin -&gt; Boilerplate : Approves the document
+Boilerplate -&gt; Boilerplate : Check company's FSP
+Boilerplate -&gt; "Final Storage Provider" : uploads the final PDF
+Boilerplate -&gt; Boilerplate : removes all intermediaries from TSP
+
+@enduml</code></pre>
+	<h2 id="open-questions">Open Questions</h2>
+	<ul>
+	<li>What do we do when storage providers are changed?
+	<ul>
+	<li><span class="citation" data-cites="lev">@lev</span>: Don’t
+	let them do this.</li>
+	</ul>
+	</li>
+	</ul>
+</body>
+</html>
